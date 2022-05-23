@@ -1,7 +1,8 @@
+import SignIn from "../components/SignIn";
 export default function Sign() {
     return (
         <div> 
-            sign in
+            <SignIn/>
         </div>
     );
 }
