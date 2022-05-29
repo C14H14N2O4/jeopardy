@@ -6,12 +6,13 @@ export default function Button() {
     const {user} = state;
     const buzzer = () => {
         fetch("http://localhost:5000", {
-            mode: 'no-cors'
+            method: 'POST',
+            body: {user}
         })
         .then(res => res)
         .then(
             (result) => {
-            console.log(result);
+            console.log(result.body);
         });
     }
     return (
