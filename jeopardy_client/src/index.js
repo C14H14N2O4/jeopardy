@@ -5,18 +5,19 @@ import {
   Routes,
   Route,
 } from "react-router-dom"
-import './index.css';
 import App from './App';
-import Sign from './routes/Sign'
+import Player from './routes/Player'
 import About from './routes/About'
 import Button from './routes/Button'
+import Moderator from './routes/Moderator'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/sign" element={<Sign/>}/>
+      <Route path="/player" element={<Player/>}/>
+      <Route path="/moderator" element={<Moderator/>}/>
       <Route path="/about" element={<About />} />
       <Route path="/button" element={<Button />} />
     </Routes>
