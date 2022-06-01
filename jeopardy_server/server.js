@@ -12,17 +12,21 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 var names = [];
 var isOpen = false;
+var hasFinished = false;
 
 app.get('/', (req, res) => {
     res.send()
     console.log("got a get req")
 })
 
-app.post('/', (req, res) => {
-    if (isOpen) {
+app.post('/player', (req, res) => {
+    if (isOpen && !hasFinished) {
         names.push(req.body.name);
+        hasFinished = true;
         console.log(names);
-        res.send(`Winner is ${req.body.name}`);
+        res.send(`${names[0]}, you won!`);
+    } else if (hasFinished) { 
+        res.send(`Too slow, winner is ${names[0]}`)
     } else {
         res.send("Too early!");
     }
@@ -36,6 +40,5 @@ app.post('/start', (req, res) => {
 app.post('/reset', (req, res) => {
     isOpen = false;
     names = [];
-    console.log(names);
     res.send("reset");
 });
