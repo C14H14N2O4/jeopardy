@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import {v4 as uuidv4 } from 'uuid';
 
 export default function SignIn() {
     const navigate = useNavigate();
     const [user, setUser] = useState("");
+    const [id, setId] = useState(uuidv4());
     const [redirect, setRedirect] = useState(false);
     function handleSubmit(evt) {
         evt.preventDefault();
-        console.log(user);
-        navigate('/button', {state: {user: user}});
+        navigate('/button', {state: {id: id, user: user}});
     }
     return (
             <form onSubmit = {handleSubmit}>
