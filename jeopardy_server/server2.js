@@ -5,6 +5,8 @@ const server = http.createServer();
 server.listen(webSocketsServerPort);
 
 var collection = new Map();
+var isOpen = true;
+var alreadyPressed = false;
 
 const wsServer = new webSocketServer({
   httpServer: server
@@ -12,18 +14,29 @@ const wsServer = new webSocketServer({
 
 
 wsServer.on('request', function(request) {
-  var d = new Date();
+
   const connection = request.accept(null, request.origin);
   var userID = 'null';
 
   connection.on('message', function(message) {
   var signal = JSON.parse(message.utf8Data);
-  userID = signal.id;
-  console.log(signal);
-  collection.set(signal.id, signal.user);
-  console.log(collection);
+  userID = signal.player.id;
+  if (signal.type == "join") {
+    collection.set(signal.player.id, signal.player.user);
+  }
+
+  if (signal.type == "buzz") {
+    if (isOpen==false) {
+      connection.send("TOO EARLY");
+    } else {
+      isOpen = false;
+      connection.send("YUOR WINNER");
+    }
+  } 
+
   })
-  console.log(d);  
+
+  
   connection.on('close', function(connection) {
     collection.delete(userID);
     console.log(collection);
