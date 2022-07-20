@@ -1,26 +1,29 @@
-import axios from "axios";
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+
 
 export default function Moderator() {
-    const reset = () => {
-        axios.post('http://localhost:5000/reset', {
-        })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
-    }
+    const client = new W3CWebSocket('ws://127.0.0.1:8000');
+    useEffect(() => {
+        client.onopen = () => {
+            console.log('Websocket Client Connected');
+        };
+        client.onmessage = (message) => {
+            console.log(message.data);
+        };
+    })
+
     const start = () => {
-        axios.post('http://localhost:5000/start', {
-        })
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+        var message = {"type": "start"}
+        client.send(JSON.stringify(message))
     }
+
+    const reset = () => {
+        var message = {"type": "reset"}
+        client.send(JSON.stringify(message))
+    }
+
     return (
         <div> 
             <button onClick = {start}>
