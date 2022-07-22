@@ -5,6 +5,7 @@ const server = http.createServer();
 server.listen(webSocketsServerPort);
 
 var collection = new Map();
+const connections = {};
 var winner = 'null';
 var isOpen = false;
 var alreadyPressed = false;
@@ -12,6 +13,13 @@ var alreadyPressed = false;
 const wsServer = new webSocketServer({
   httpServer: server
 });
+
+
+const updateWinner = (msg) => {
+  Object.keys(connections).map((client) => {
+    connections[client].sendUTF(msg)
+  });
+}
 
 
 wsServer.on('request', function(request) {
@@ -24,6 +32,7 @@ wsServer.on('request', function(request) {
   if (signal.type == "join") {
     collection.set(signal.player.id, signal.player.user);
     userID = signal.player.id;
+    connections[userID] = connection;
   }
   if (signal.type == "start") {
     isOpen = true;
@@ -45,6 +54,7 @@ wsServer.on('request', function(request) {
       isOpen = false;
       alreadyPressed = true;
       winner = signal.player.user;
+      updateWinner(winner);
       connection.send("YUOR WINNER");
     }
   } 
