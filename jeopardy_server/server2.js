@@ -28,6 +28,7 @@ wsServer.on('request', function(request) {
   var userID = 'null';
 
   connection.on('message', function(message) {
+    var msg;
   var signal = JSON.parse(message.utf8Data);
   if (signal.type == "join") {
     collection.set(signal.player.id, signal.player.user);
@@ -46,21 +47,25 @@ wsServer.on('request', function(request) {
 
   if (signal.type == "buzz") {
     if (alreadyPressed == true) {
-      connection.send("TOO LATE");
+      msg = {"type":"err", "content":"TOO LATE"}
+      connection.send(JSON.stringify(msg));
     }
     else if (isOpen==false) {
-      connection.send("TOO EARLY");
+      msg = {"type":"err", "content":"TOO EARLY"}
+      connection.send(JSON.stringify(msg));
     } else {
       isOpen = false;
       alreadyPressed = true;
       winner = signal.player.user;
-      updateWinner(winner);
-      connection.send("YUOR WINNER");
+      updateWinner(JSON.stringify({"type":"winner", "content":winner}));
+      msg = {"type":"congratulations", "content":"YUOR WINNER"}
+      connection.send(JSON.stringify(msg));
     }
   } 
 
   if (winner !== 'null') {
-    connection.send(JSON.stringify({"type": "win", "user": winner}));
+    msg = {"type":"win", "user":winner}
+    connection.send(JSON.stringify(msg));
   }
 
   })
