@@ -1,8 +1,9 @@
 import { useLocation } from "react-router";
 import { useEffect } from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { Button } from "@mui/material";
 
-export default function Button() {
+export default function Buzzer() {
     const {state} = useLocation()
     const {id} = state;
     const {user} = state;
@@ -30,7 +31,10 @@ export default function Button() {
     }
     return (
         <div> 
-            <button onClick = {buzzer}>Buzz</button>
+          <Button
+          style={{backgroundColor: '#2a4269', color: '#ffffff'}}
+            onClick = {buzzer}
+          >Buzz</Button>
             <div>
                 {/* {`${result}`} */}
             </div>

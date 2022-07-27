@@ -8,7 +8,7 @@ import {
 import App from './App';
 import Player from './routes/Player'
 import About from './routes/About'
-import Button from './routes/Button'
+import Buzzer from './routes/Buzzer'
 import Moderator from './routes/Moderator'
 import WebTest from './components/WebTest'
 
@@ -20,7 +20,7 @@ root.render(
       <Route path="/player" element={<Player/>}/>
       <Route path="/moderator" element={<Moderator/>}/>
       <Route path="/about" element={<About />} />
-      <Route path="/button" element={<Button />} />
+      <Route path="/buzzer" element={<Buzzer />} />
     </Routes>
   </BrowserRouter>
 );
