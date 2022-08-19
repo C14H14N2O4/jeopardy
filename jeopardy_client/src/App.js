@@ -20,7 +20,7 @@ export default function App() {
       <Stack spacing={2}>
        <nav>
           <Link to="/player" style={{ textDecoration: 'none'}}>
-            <Button variant="contained">Play</Button>
+            <Button variant="contained">Register</Button>
             </Link>
       </nav>
       <nav>

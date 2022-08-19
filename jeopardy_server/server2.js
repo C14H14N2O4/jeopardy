@@ -22,13 +22,14 @@ const updateWinner = (msg) => {
 }
 
 
+
 wsServer.on('request', function(request) {
 
   const connection = request.accept(null, request.origin);
   var userID = 'null';
 
   connection.on('message', function(message) {
-    var msg;
+  var msg;
   var signal = JSON.parse(message.utf8Data);
   if (signal.type == "join") {
     collection.set(signal.player.id, signal.player.user);
@@ -43,6 +44,8 @@ wsServer.on('request', function(request) {
     isOpen = false;
     alreadyPressed = false;
     winner = 'null';
+    msg = {"type":"reset", "content":"reset"}
+    updateWinner(JSON.stringify(msg));
   }
 
   if (signal.type == "buzz") {

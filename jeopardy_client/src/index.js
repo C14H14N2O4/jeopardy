@@ -10,7 +10,6 @@ import Player from './routes/Player'
 import About from './routes/About'
 import Buzzer from './routes/Buzzer'
 import Moderator from './routes/Moderator'
-import WebTest from './components/WebTest'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

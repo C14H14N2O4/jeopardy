@@ -34,17 +34,4 @@ export default function SignIn() {
             </Stack>
             </Box>
     )
-    // return (
-    //         <form onSubmit = {handleSubmit}>
-    //             <label>Username:
-    //             <input 
-    //                 type="text" 
-    //                 id = "userName" 
-    //                 name = "userName"
-    //                 onChange = {e => setUser(e.target.value)}
-    //                 />
-    //                 </label>
-    //             <input type = "submit" value = "Submit"/>
-    //         </form>
-    // )
 }

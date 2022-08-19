@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import {v4 as uuidv4 } from 'uuid';
+
 
 
 export default function Moderator() {
     const client = new W3CWebSocket('ws://127.0.0.1:8000');
+    const [result, setResult] = useState("");
+    const [user, setUser] = useState("SecretModeratorName");
+    const [id, setId] = useState(uuidv4());
     useEffect(() => {
         client.onopen = () => {
-            console.log('Websocket Client Connected');
+            var joinMsg = {"type": "join", "player":{id: id, user: user}}
+            client.send(JSON.stringify(joinMsg));
+            console.log('WebSocket Client Connected');
         };
         client.onmessage = (message) => {
-            console.log(message.data);
+            var signal = JSON.parse(message.data);
+            if (signal.type === "winner") {
+                setResult("The winner is " + signal.content);
+            }
         };
     })
 
@@ -21,6 +31,7 @@ export default function Moderator() {
 
     const reset = () => {
         var message = {"type": "reset"}
+        setResult("");
         client.send(JSON.stringify(message))
     }
 
@@ -32,6 +43,9 @@ export default function Moderator() {
            <button onClick = {reset}>
                 Reset
            </button>
+           <div style={{color: "white"}}>
+                {`${result}`}
+            </div>
         </div>
     );
 }
